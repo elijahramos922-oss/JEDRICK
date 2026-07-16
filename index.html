@@ -244,6 +244,34 @@
   .c2{left:126px;}
   .c3{left:156px;}
 
+  /* candles blown out after a wish is made */
+  .cake3d.candles-out .candle::after{
+    animation:none;
+    opacity:0;
+  }
+  .cake3d.candles-out .candle::before{
+    background:#2a2a2a;
+  }
+  .smoke-wisp{
+    position:absolute;
+    left:50%;
+    top:-16px;
+    width:6px;
+    height:6px;
+    background:radial-gradient(circle, rgba(210,210,210,0.65), rgba(210,210,210,0) 70%);
+    border-radius:50%;
+    filter:blur(2px);
+    pointer-events:none;
+    transform:translate(-50%,0) scale(1);
+    animation:smokeRise 1.6s ease-out forwards;
+    z-index:8;
+  }
+  @keyframes smokeRise{
+    0%{ transform:translate(-50%,0) scale(0.8); opacity:0.8; }
+    60%{ opacity:0.55; }
+    100%{ transform:translate(calc(-50% + var(--sx, 8px)), -46px) scale(2.4); opacity:0; }
+  }
+
   /* tiers - each built from a top ellipse (glossy icing) + front body (glazed) with 3D shading */
   .tier{
     position:absolute;
@@ -421,6 +449,8 @@
   .nudge{ font-size:0.8rem; color:var(--pink); min-height:18px; font-weight:600; }
 
   .gift-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; margin-top:6px; }
+  .gift-grid.three{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .gift-grid.three .gift-box:last-child{ grid-column:1 / -1; }
   .gift-box{
     position:relative;
     background:linear-gradient(150deg, #17264a, #0b1224);
@@ -449,6 +479,7 @@
   }
   .gift-box:hover::before{opacity:1;}
   .gift-box:nth-child(2){animation-delay:0.4s;}
+  .gift-box:nth-child(3){animation-delay:0.8s;}
   @keyframes giftFloat{
     0%,100%{transform:translateY(0) rotateX(0) rotateY(0);}
     50%{transform:translateY(-6px) rotateX(0) rotateY(0);}
@@ -542,19 +573,25 @@
     position:absolute;
     top:50%;
     transform:translateY(-50%);
-    background:rgba(0,0,0,0.45);
-    border:1px solid rgba(255,255,255,0.25);
-    color:#fff;
-    width:38px;height:38px;
+    background:transparent;
+    border:none;
+    color:rgba(255,255,255,0.85);
+    width:42px;height:42px;
     border-radius:50%;
-    font-size:1.1rem;
+    font-size:1.25rem;
     padding:0;
-    backdrop-filter:blur(4px);
-    transition:transform 0.2s ease, background 0.2s ease;
+    backdrop-filter:none;
+    transition:transform 0.2s ease, color 0.2s ease, background 0.2s ease;
+    text-shadow:0 0 10px rgba(0,0,0,0.7);
+    z-index:2;
   }
-  .carousel-frame .nav-btn:hover{background:rgba(0,0,0,0.65); transform:translateY(-50%) scale(1.1);}
-  .nav-prev{left:10px;}
-  .nav-next{right:10px;}
+  .carousel-frame .nav-btn:hover{
+    background:rgba(0,0,0,0.16);
+    color:#fff;
+    transform:translateY(-50%) scale(1.08);
+  }
+  .nav-prev{left:8px;}
+  .nav-next{right:8px;}
   .carousel-frame .counter-tag{
     position:absolute;
     bottom:10px;
@@ -582,6 +619,82 @@
     transition:transform 0.2s ease, background 0.2s ease;
   }
   .back-btn:hover{background:rgba(255,255,255,0.08); color:#fff; transform:translateY(-2px);}
+
+  /* ===== Make a Wish ===== */
+  .wish-icon{
+    width:46px;height:46px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--gold2), var(--gold) 55%, #b9862a);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.35rem;
+    margin:0 auto 14px;
+    box-shadow:0 10px 20px rgba(232,184,75,0.35);
+    animation:iconPop 0.5s ease;
+  }
+  .wish-label{
+    font-size:0.7rem;
+    font-weight:700;
+    letter-spacing:0.16em;
+    color:var(--cyan);
+    text-shadow:0 0 6px rgba(63,240,230,0.6);
+    margin-bottom:10px;
+    display:block;
+    text-align:center;
+  }
+  .wish-desc{
+    font-size:0.85rem;
+    color:#cdd3e0;
+    text-align:center;
+    margin-bottom:18px;
+    line-height:1.5;
+  }
+  .wish-field{
+    width:100%;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(232,184,75,0.35);
+    border-radius:14px;
+    color:var(--text);
+    font-family:'Manrope', sans-serif;
+    font-size:0.95rem;
+    padding:13px 16px;
+    margin-bottom:12px;
+    outline:none;
+    transition:border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .wish-field:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(232,184,75,0.18);
+  }
+  textarea.wish-field{
+    resize:vertical;
+    min-height:110px;
+    line-height:1.6;
+  }
+  .wish-status{
+    font-size:0.82rem;
+    min-height:18px;
+    margin-bottom:10px;
+    font-weight:600;
+    text-align:center;
+  }
+  .wish-status.error{ color:var(--pink); }
+  .wish-status.success{ color:var(--cyan); text-shadow:0 0 6px rgba(63,240,230,0.5); }
+  .wish-btn{
+    width:100%;
+    background:linear-gradient(135deg, var(--gold2), var(--gold) 55%, #c9932f);
+    color:#241804;
+    border:none;
+    box-shadow:0 12px 26px rgba(232,184,75,0.35);
+    margin-bottom:10px;
+  }
+  .wish-btn:hover{ transform:translateY(-2px); }
+  .wish-btn:disabled{ opacity:0.6; cursor:not-allowed; transform:none; }
+  .wish-success-icon{
+    font-size:2.4rem;
+    text-align:center;
+    margin-bottom:10px;
+    animation:iconPop 0.5s ease;
+  }
 
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
@@ -619,7 +732,7 @@
 
     <div class="panel" id="step1">
       <h1>HAPPY BIRTHDAY, JEDRICK!</h1>
-      <p class="subtext">isa pang taon, isa pang shot 🎉</p>
+      <p class="subtext">another year, another shot 🎉</p>
 
       <div class="cake3d-wrap">
         <div class="cake-ambient-glow"></div>
@@ -671,8 +784,8 @@
       </div>
 
       <div class="question">
-        Sigurado ka ba? 😏<br>
-        <b>Excited</b> ka bang makita ang inihanda ko para sa'yo?
+        Are you sure? 😏<br>
+        <b>Excited</b> to see what I prepared for you?
       </div>
       <div class="btn-row">
         <button class="btn-yes" id="yesBtn">YES</button>
@@ -682,20 +795,26 @@
     </div>
 
     <div class="panel hidden" id="giftGrid">
-      <h1 style="font-size:clamp(1.2rem,5.5vw,1.6rem);">PILI KA</h1>
-      <p class="subtext">anong bubuksan mo muna?</p>
-      <div class="gift-grid">
+      <h1 style="font-size:clamp(1.2rem,5.5vw,1.6rem);">CHOOSE ONE</h1>
+      <p class="subtext">what do you want to open first?</p>
+      <div class="gift-grid three">
         <button class="gift-box" data-target="message">
           <span class="emoji">🎁</span>
           Message Gift
-          <span class="sub">isang tapat na mensahe</span>
+          <span class="sub">a heartfelt message</span>
         </button>
         <button class="gift-box" data-target="carousel">
           <span class="emoji">🎀</span>
           Memory Gift
-          <span class="sub">mga kwento sa larawan</span>
+          <span class="sub">photo memories</span>
+        </button>
+        <button class="gift-box" data-target="wish">
+          <span class="emoji">🌠</span>
+          Make a Wish
+          <span class="sub">type a secret wish</span>
         </button>
       </div>
+      <button class="back-btn" id="giftBackToCakeBtn">← Back to Cake</button>
     </div>
 
     <div class="panel message-card hidden" id="messageScreen">
@@ -717,6 +836,38 @@
       <button class="back-btn" data-action="back">← Back</button>
     </div>
 
+    <!-- ===== MAKE A WISH: password gate + wish form ===== -->
+    <div class="panel hidden" id="wishScreen">
+
+      <div id="wishPasswordGate">
+        <div class="wish-icon">🔒</div>
+        <span class="wish-label">MAKE A WISH</span>
+        <p class="wish-desc">Ang wish form na ito ay para lang kay Jedrick.<br>Ilagay ang password para makapag-wish.</p>
+        <input type="password" id="wishPasswordInput" class="wish-field" placeholder="Password" autocomplete="off">
+        <div class="wish-status" id="wishPasswordStatus"></div>
+        <button class="wish-btn" id="wishPasswordSubmit">Unlock</button>
+        <button class="back-btn" data-action="back">← Back</button>
+      </div>
+
+      <div id="wishFormBlock" class="hidden">
+        <div class="wish-icon">🌠</div>
+        <span class="wish-label">MAKE A WISH</span>
+        <p class="wish-desc">I-type ang wish mo para sa taong ito. Ma-sasave ito nang tahimik, para sa'yo lang.</p>
+        <textarea id="wishText" class="wish-field" placeholder="I wish..."></textarea>
+        <div class="wish-status" id="wishFormStatus"></div>
+        <button class="wish-btn" id="wishSubmitBtn">Save my wish</button>
+        <button class="back-btn" data-action="back">← Back</button>
+      </div>
+
+      <div id="wishSuccessBlock" class="hidden">
+        <div class="wish-success-icon">🌠</div>
+        <span class="wish-label" style="text-align:center;">WISH SAVED</span>
+        <p class="wish-desc">Naipadala na ang wish mo sa mga bituin. Manifest na lang natin 🤍</p>
+        <button class="back-btn" id="wishBackToCakeBtn">🎂 Bumalik sa Cake</button>
+      </div>
+
+    </div>
+
   </div>
 
 <script>
@@ -733,12 +884,15 @@
   const giftGrid = document.getElementById('giftGrid');
   const messageScreen = document.getElementById('messageScreen');
   const carouselScreen = document.getElementById('carouselScreen');
+  const wishScreen = document.getElementById('wishScreen');
   const carouselImage = document.getElementById('carouselImage');
   const dotsContainer = document.getElementById('dots');
   const counterTag = document.getElementById('counterTag');
 
+  const allScreens = [step1, giftGrid, messageScreen, carouselScreen, wishScreen];
+
   function showScreen(screenId){
-    [step1, giftGrid, messageScreen, carouselScreen].forEach(el => el.classList.add('hidden'));
+    allScreens.forEach(el => el.classList.add('hidden'));
     document.getElementById(screenId).classList.remove('hidden');
   }
 
@@ -763,16 +917,32 @@
       const target = button.getAttribute('data-target');
       if(target === 'message'){
         showScreen('messageScreen');
-      } else {
+      } else if(target === 'carousel'){
         showScreen('carouselScreen');
         updateCarousel();
+      } else if(target === 'wish'){
+        resetWishScreen();
+        showScreen('wishScreen');
       }
     });
   });
 
-  document.querySelectorAll('.back-btn').forEach(button => {
+  document.querySelectorAll('.back-btn[data-action="back"]').forEach(button => {
     button.addEventListener('click', () => showScreen('giftGrid'));
   });
+
+  document.getElementById('wishBackToCakeBtn').addEventListener('click', () => {
+    showScreen('step1');
+    blowOutCandles();
+  });
+
+  // Back button from CHOOSE ONE -> Cake
+  const giftBackToCakeBtn = document.getElementById('giftBackToCakeBtn');
+  if (giftBackToCakeBtn) {
+    giftBackToCakeBtn.addEventListener('click', () => {
+      showScreen('step1');
+    });
+  }
 
   function buildDots(){
     dotsContainer.innerHTML = '';
@@ -808,6 +978,101 @@
 
   buildDots();
 
+  // ============ MAKE A WISH ============
+  const wishPasswordGate = document.getElementById('wishPasswordGate');
+  const wishFormBlock = document.getElementById('wishFormBlock');
+  const wishSuccessBlock = document.getElementById('wishSuccessBlock');
+  const wishPasswordInput = document.getElementById('wishPasswordInput');
+  const wishPasswordStatus = document.getElementById('wishPasswordStatus');
+  const wishPasswordSubmit = document.getElementById('wishPasswordSubmit');
+  const wishText = document.getElementById('wishText');
+  const wishFormStatus = document.getElementById('wishFormStatus');
+  const wishSubmitBtn = document.getElementById('wishSubmitBtn');
+
+  let unlockedPassword = null; // sent again to the server on save for real verification
+
+  function resetWishScreen(){
+    wishPasswordGate.classList.remove('hidden');
+    wishFormBlock.classList.add('hidden');
+    wishSuccessBlock.classList.add('hidden');
+    wishPasswordInput.value = '';
+    wishPasswordStatus.textContent = '';
+    wishPasswordStatus.className = 'wish-status';
+    wishText.value = '';
+    wishFormStatus.textContent = '';
+    wishFormStatus.className = 'wish-status';
+    unlockedPassword = null;
+  }
+
+  wishPasswordSubmit.addEventListener('click', () => {
+    const entered = wishPasswordInput.value.trim();
+    if(entered === '1412'){
+      unlockedPassword = entered;
+      wishPasswordGate.classList.add('hidden');
+      wishFormBlock.classList.remove('hidden');
+      wishText.focus();
+    } else {
+      wishPasswordStatus.textContent = 'Mali ang password, subukan ulit.';
+      wishPasswordStatus.className = 'wish-status error';
+    }
+  });
+  wishPasswordInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter') wishPasswordSubmit.click();
+  });
+
+  wishSubmitBtn.addEventListener('click', async () => {
+    const wish = wishText.value.trim();
+    if(wish === ''){
+      wishFormStatus.textContent = 'Maglagay muna ng wish.';
+      wishFormStatus.className = 'wish-status error';
+      return;
+    }
+    wishSubmitBtn.disabled = true;
+    wishFormStatus.textContent = 'Sinesave...';
+    wishFormStatus.className = 'wish-status';
+
+    try {
+      const res = await fetch('save_wish.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ wish: wish, password: unlockedPassword })
+      });
+      const data = await res.json();
+      if(data.success){
+        wishFormBlock.classList.add('hidden');
+        wishSuccessBlock.classList.remove('hidden');
+        burstConfetti();
+      } else {
+        wishFormStatus.textContent = data.message || 'May problema, subukan ulit.';
+        wishFormStatus.className = 'wish-status error';
+      }
+    } catch (err) {
+      wishFormStatus.textContent = 'Hindi ma-reach ang server. Siguraduhing naka-run ito sa PHP server (hindi lang binuksan bilang file).';
+      wishFormStatus.className = 'wish-status error';
+    } finally {
+      wishSubmitBtn.disabled = false;
+    }
+  });
+
+  // blow out the candles + rising smoke, triggered after a wish is saved
+  function blowOutCandles(){
+    const cake = document.querySelector('.cake3d');
+    if(!cake) return;
+    cake.classList.add('candles-out');
+    ['c1', 'c2', 'c3'].forEach(cls => {
+      const candle = cake.querySelector('.' + cls);
+      if(!candle) return;
+      for(let s = 0; s < 3; s++){
+        const wisp = document.createElement('div');
+        wisp.className = 'smoke-wisp';
+        wisp.style.setProperty('--sx', (Math.random() * 24 - 12) + 'px');
+        wisp.style.animationDelay = (s * 0.18) + 's';
+        candle.appendChild(wisp);
+        setTimeout(() => wisp.remove(), 2200);
+      }
+    });
+  }
+
   // ambient floating particles
   const bgParticles = document.getElementById('bgParticles');
   const shapes = ['✨','⭐','🎈','🎉','💫'];
@@ -826,7 +1091,7 @@
   setInterval(spawnParticle, 900);
   for(let n = 0; n < 8; n++) setTimeout(spawnParticle, n * 350);
 
-  // confetti burst on YES
+  // confetti burst
   const confettiLayer = document.getElementById('confettiLayer');
   const confettiColors = ['#e8b84b','#ff2fb0','#3ff0e6','#ffe3a1','#ffffff'];
   function burstConfetti(){
