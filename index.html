@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Jedrick</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600..900&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+  :root{
+    --bg:#05050c;
+    --bg2:#0b0d1c;
+    --navy:#1c3f8f;
+    --navy2:#0d1b3d;
+    --navy3:#3868c0;
+    --gold:#e8b84b;
+    --gold2:#ffe3a1;
+    --gold3:#8a5f1e;
+    --cyan:#3ff0e6;
+    --pink:#ff2fb0;
+    --text:#f3f1ea;
+    --choc:#4a2712;
+    --choc-light:#8a4a22;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    background:
+      radial-gradient(circle at 18% 12%, rgba(255,47,176,0.14), transparent 42%),
+      radial-gradient(circle at 82% 88%, rgba(63,240,230,0.13), transparent 42%),
+      radial-gradient(circle at 50% 40%, rgba(232,184,75,0.06), transparent 55%),
+      radial-gradient(circle at 30% 15%, var(--bg2), var(--bg) 72%);
+    background-size:200% 200%, 200% 200%, 160% 160%, 100% 100%;
+    animation:auroraShift 18s ease-in-out infinite;
+    color:var(--text);
+    font-family:'Manrope', sans-serif;
+    overflow:hidden;
+    position:relative;
+  }
+  @keyframes auroraShift{
+    0%,100%{background-position:0% 0%, 100% 100%, 50% 50%, center;}
+    50%{background-position:34% 22%, 66% 78%, 44% 60%, center;}
+  }
+
+  #bgParticles{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+    overflow:hidden;
+  }
+  .particle{
+    position:absolute;
+    bottom:-40px;
+    opacity:0;
+    animation-name:floatUp;
+    animation-timing-function:linear;
+    animation-fill-mode:forwards;
+    will-change:transform, opacity;
+  }
+  @keyframes floatUp{
+    0%{transform:translateY(0) translateX(0) rotate(0deg); opacity:0;}
+    8%{opacity:0.9;}
+    90%{opacity:0.7;}
+    100%{transform:translateY(-115vh) translateX(var(--drift, 30px)) rotate(360deg); opacity:0;}
+  }
+
+  /* confetti */
+  #confettiLayer{
+    position:fixed; inset:0; pointer-events:none; z-index:50; overflow:hidden;
+  }
+  .confetti-piece{
+    position:absolute;
+    top:-24px;
+    opacity:0;
+    animation-name:confettiFall;
+    animation-timing-function:cubic-bezier(.3,.6,.4,1);
+    animation-fill-mode:forwards;
+  }
+  @keyframes confettiFall{
+    0%{transform:translateY(0) translateX(0) rotate(0deg); opacity:1;}
+    100%{transform:translateY(105vh) translateX(var(--cx, 0px)) rotate(var(--cr, 540deg)); opacity:0.9;}
+  }
+
+  .scene{
+    position:relative; z-index:1; width:min(470px, 100%); text-align:center;
+    perspective:1200px;
+  }
+
+  .panel{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg, rgba(255,255,255,0.13), rgba(255,255,255,0.035));
+    border:1px solid rgba(255,255,255,0.16);
+    border-radius:28px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.18);
+    padding:30px 22px;
+    backdrop-filter:blur(14px);
+    transform-style:preserve-3d;
+    will-change:transform;
+    transition:transform 0.25s ease-out;
+  }
+  .panel::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(120deg, rgba(232,184,75,0.14), transparent 35%, rgba(63,240,230,0.12) 70%, transparent);
+    pointer-events:none;
+  }
+  .panel::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:28px;
+    padding:1px;
+    background:linear-gradient(140deg, rgba(232,184,75,0.55), transparent 30%, transparent 70%, rgba(63,240,230,0.35));
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;
+    mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite:exclude;
+    pointer-events:none;
+  }
+  .hidden{display:none;}
+  @keyframes panelIn{
+    from{opacity:0; transform:translateY(22px) scale(0.96) rotateX(4deg);}
+    to{opacity:1; transform:translateY(0) scale(1) rotateX(0deg);}
+  }
+  .panel:not(.hidden){animation:panelIn 0.6s cubic-bezier(.2,.7,.3,1);}
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:800;
+    font-size:clamp(1.8rem, 6.8vw, 2.6rem);
+    letter-spacing:0.01em;
+    color:#fff;
+    background:linear-gradient(120deg, #fff 30%, var(--gold2) 55%, var(--gold) 75%, #fff 95%);
+    background-size:250% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 0 18px rgba(232,184,75,0.45));
+    margin-bottom:6px;
+    animation:titleShine 5s linear infinite;
+  }
+  @keyframes titleShine{
+    0%{background-position:0% 0%;}
+    100%{background-position:250% 0%;}
+  }
+  .subtext{
+    color:var(--cyan);
+    font-size:0.88rem;
+    margin-bottom:22px;
+    text-shadow:0 0 6px rgba(63,240,230,0.6);
+    letter-spacing:0.05em;
+    font-weight:600;
+  }
+
+  /* ============ 3D CAKE ============ */
+  .cake3d-wrap{
+    position:relative;
+    width:260px;
+    height:296px;
+    margin:14px auto 24px;
+    perspective:900px;
+  }
+  .cake-ambient-glow{
+    position:absolute;
+    left:50%; top:60%;
+    width:250px; height:250px;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(232,184,75,0.38) 0%, rgba(255,47,176,0.10) 40%, transparent 70%);
+    filter:blur(10px);
+    animation:glowPulse 3.4s ease-in-out infinite;
+    z-index:0;
+  }
+  @keyframes glowPulse{
+    0%,100%{opacity:0.55; transform:translate(-50%,-50%) scale(1);}
+    50%{opacity:1; transform:translate(-50%,-50%) scale(1.09);}
+  }
+
+  .cake3d{
+    position:absolute;
+    top:26px;
+    left:0;
+    right:0;
+    transform-style:preserve-3d;
+    animation:cakeWobble 7s ease-in-out infinite, cakeBob 4s ease-in-out infinite;
+    filter:drop-shadow(0 26px 30px rgba(0,0,0,0.4));
+  }
+  @keyframes cakeWobble{
+    0%,100%{transform:rotateY(-13deg) rotateX(4deg);}
+    50%{transform:rotateY(13deg) rotateX(4deg);}
+  }
+  @keyframes cakeBob{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-6px);}
+  }
+
+  /* candles */
+  .candle{
+    position:absolute;
+    top:-6px;
+    width:8px;
+    height:32px;
+    background:linear-gradient(180deg, var(--gold2), #b9862a);
+    border-radius:3px;
+    box-shadow:0 0 8px rgba(232,184,75,0.7), inset -2px 0 3px rgba(0,0,0,0.25);
+    z-index:6;
+    transform:translateZ(28px);
+  }
+  .candle::before{
+    content:'';
+    position:absolute;
+    left:50%; top:-4px;
+    transform:translateX(-50%);
+    width:9px; height:5px;
+    background:#3a3a3a;
+    border-radius:1px;
+  }
+  .candle::after{
+    content:'';
+    position:absolute;
+    left:50%;
+    top:-16px;
+    transform:translateX(-50%);
+    width:11px;
+    height:16px;
+    background:radial-gradient(circle at 50% 30%, #fff9e0 0%, #ffd158 35%, #ff8a1f 68%, #ff4d1f 100%);
+    border-radius:50% 50% 50% 50% / 62% 62% 38% 38%;
+    animation:flick 1s infinite alternate;
+    box-shadow:0 0 14px 4px rgba(255,180,60,0.75), 0 0 26px 8px rgba(255,120,40,0.3);
+  }
+  @keyframes flick{
+    0%{transform:translateX(-50%) scaleY(1) rotate(-1deg);}
+    50%{transform:translateX(-52%) scaleY(1.12) rotate(2deg);}
+    100%{transform:translateX(-48%) scaleY(0.96) rotate(-2deg);}
+  }
+  .c1{left:96px;}
+  .c2{left:126px;}
+  .c3{left:156px;}
+
+  /* tiers - each built from a top ellipse (glossy icing) + front body (glazed) with 3D shading */
+  .tier{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    transform-style:preserve-3d;
+  }
+  .tier-top{
+    position:absolute;
+    left:50%;
+    top:0;
+    transform:translate(-50%,-46%) translateZ(1px);
+    border-radius:50%;
+    box-shadow:inset 0 -6px 10px rgba(0,0,0,0.14), inset 0 6px 10px rgba(255,255,255,0.35), 0 4px 10px rgba(0,0,0,0.2);
+  }
+  .tier-front{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    border-radius:0 0 18px 18px;
+    box-shadow:inset 10px 0 18px rgba(0,0,0,0.16), inset -10px 0 14px rgba(255,255,255,0.14), inset 0 -10px 14px rgba(0,0,0,0.18), 0 10px 18px rgba(0,0,0,0.3);
+    overflow:hidden;
+  }
+  .tier-front::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(100deg, rgba(255,255,255,0.22) 0%, transparent 22%, transparent 78%, rgba(0,0,0,0.12) 100%);
+  }
+  .tier-band{
+    position:absolute;
+    left:50%;
+    bottom:0;
+    transform:translateX(-50%);
+    height:9px;
+    border-radius:0 0 999px 999px;
+    background:linear-gradient(180deg, var(--gold2), var(--gold3));
+    box-shadow:0 3px 6px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.6);
+  }
+  .tier-band::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background-image:radial-gradient(circle, rgba(255,255,255,0.75) 1px, transparent 1.4px);
+    background-size:9px 9px;
+    background-position:2px 2px;
+    opacity:0.7;
+  }
+
+  /* BOTTOM tier */
+  .tier-bottom{ top:150px; width:220px; z-index:1; }
+  .tier-bottom .tier-top{ width:220px; height:46px; background:radial-gradient(ellipse at 35% 30%, #ffd9ec 0%, #ff6fb8 45%, #ff2fb0 100%); }
+  .tier-bottom .tier-front{ top:14px; width:198px; height:64px; background:linear-gradient(180deg, #ff7cc0 0%, #ff2fb0 55%, #c9127f 100%); }
+  .tier-bottom .tier-band{ width:198px; }
+
+  /* MID tier */
+  .tier-mid{ top:84px; width:176px; z-index:2; }
+  .tier-mid .tier-top{ width:176px; height:38px; background:radial-gradient(ellipse at 35% 30%, #fff6d8 0%, #ffd873 45%, #ffb437 100%); }
+  .tier-mid .tier-front{ top:11px; width:158px; height:56px; background:linear-gradient(180deg, #ffe19a 0%, #ffb437 55%, #d4841b 100%); }
+  .tier-mid .tier-band{ width:158px; }
+
+  /* TOP tier */
+  .tier-top-tier{ top:32px; width:132px; z-index:3; }
+  .tier-top-tier .tier-top{ width:132px; height:30px; background:radial-gradient(ellipse at 35% 30%, #fff 0%, #fdeccb 40%, #f7d896 100%); }
+  .tier-top-tier .tier-front{ top:8px; width:118px; height:46px; background:linear-gradient(180deg, #fffaf0 0%, #f7d896 55%, #dba959 100%); }
+  .tier-top-tier .tier-band{ width:118px; }
+
+  .sprinkles-3d{
+    position:absolute;
+    inset:0;
+    background-image:
+      radial-gradient(circle, #fff 1.3px, transparent 1.8px),
+      radial-gradient(circle, var(--cyan) 1.3px, transparent 1.8px),
+      radial-gradient(circle, var(--gold2) 1.3px, transparent 1.8px);
+    background-size:18px 16px, 22px 20px, 26px 15px;
+    background-position:5px 4px, 9px 11px, 14px 3px;
+    opacity:0.85;
+    z-index:5;
+  }
+
+  /* chocolate drip cascading from top tier down over mid tier */
+  .choc-drip{
+    position:absolute;
+    left:50%;
+    top:31px;
+    transform:translateX(-50%);
+    width:140px;
+    z-index:4;
+    filter:drop-shadow(0 4px 4px rgba(0,0,0,0.25));
+  }
+
+  .cake-plate{
+    position:absolute;
+    top:222px;
+    left:50%;
+    transform:translateX(-50%);
+    width:242px;
+    height:22px;
+    border-radius:50%;
+    background:radial-gradient(ellipse at 35% 30%, #b3b8d4 0%, #7378a0 45%, #3a3d54 100%);
+    box-shadow:0 10px 18px rgba(0,0,0,0.35), inset 0 3px 6px rgba(255,255,255,0.3), inset 0 -3px 6px rgba(0,0,0,0.2);
+    z-index:0;
+  }
+  .cake-shadow{
+    position:absolute;
+    left:50%;
+    top:238px;
+    transform:translateX(-50%);
+    width:210px;
+    height:14px;
+    background:radial-gradient(ellipse, rgba(0,0,0,0.35), transparent 70%);
+    filter:blur(7px);
+    z-index:0;
+  }
+
+  .sparkle{
+    position:absolute;
+    color:var(--gold2);
+    font-size:0.85rem;
+    text-shadow:0 0 8px rgba(232,184,75,0.9);
+    animation:twinkle 2.4s ease-in-out infinite;
+    z-index:7;
+    pointer-events:none;
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:0.2; transform:scale(0.7) rotate(0deg);}
+    50%{opacity:1; transform:scale(1.15) rotate(20deg);}
+  }
+  .sp1{top:6%; left:2%; animation-delay:0s;}
+  .sp2{top:18%; right:0%; animation-delay:0.6s;}
+  .sp3{top:70%; left:-2%; animation-delay:1.2s;}
+  .sp4{top:80%; right:2%; animation-delay:1.8s;}
+  .sp5{top:2%; left:55%; animation-delay:0.3s; font-size:0.65rem;}
+
+  .question{
+    font-size:1rem;
+    line-height:1.6;
+    color:#f5ecd8;
+    margin:22px 0 18px;
+  }
+  .question b{color:var(--gold); font-weight:800;}
+
+  .btn-row{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+  button{
+    font-family:'Manrope', sans-serif;
+    cursor:pointer;
+    border-radius:999px;
+    padding:12px 28px;
+    font-size:0.9rem;
+    font-weight:700;
+    letter-spacing:0.03em;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-yes{
+    background:linear-gradient(135deg, var(--gold2), var(--gold) 55%, #c9932f);
+    color:#241804;
+    border:none;
+    box-shadow:0 12px 26px rgba(232,184,75,0.4);
+    animation:pulseGlow 2.2s ease-in-out infinite;
+    position:relative;
+  }
+  @keyframes pulseGlow{
+    0%,100%{box-shadow:0 12px 26px rgba(232,184,75,0.4);}
+    50%{box-shadow:0 14px 36px rgba(232,184,75,0.7);}
+  }
+  .btn-yes:hover{transform:translateY(-3px) scale(1.04);}
+  .btn-yes:active{transform:translateY(0) scale(0.98);}
+  .btn-no{
+    background:transparent;
+    border:2px solid var(--pink);
+    color:var(--pink);
+    text-shadow:0 0 6px var(--pink);
+  }
+  .btn-no:hover{background:rgba(255,47,176,0.14); transform:translateY(-2px);}
+  .nudge{ font-size:0.8rem; color:var(--pink); min-height:18px; font-weight:600; }
+
+  .gift-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; margin-top:6px; }
+  .gift-box{
+    position:relative;
+    background:linear-gradient(150deg, #17264a, #0b1224);
+    border:1px solid rgba(232,184,75,0.35);
+    color:var(--text);
+    border-radius:20px;
+    padding:26px 12px;
+    box-shadow:0 16px 30px rgba(0,0,0,0.4);
+    font-family:'Manrope', sans-serif;
+    font-size:0.95rem;
+    font-weight:700;
+    letter-spacing:0.02em;
+    transition:transform 0.18s ease-out, box-shadow 0.2s ease, border-color 0.2s ease;
+    animation:giftFloat 3s ease-in-out infinite;
+    transform-style:preserve-3d;
+    overflow:hidden;
+  }
+  .gift-box::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(232,184,75,0.28), transparent 55%);
+    opacity:0;
+    transition:opacity 0.25s ease;
+    pointer-events:none;
+  }
+  .gift-box:hover::before{opacity:1;}
+  .gift-box:nth-child(2){animation-delay:0.4s;}
+  @keyframes giftFloat{
+    0%,100%{transform:translateY(0) rotateX(0) rotateY(0);}
+    50%{transform:translateY(-6px) rotateX(0) rotateY(0);}
+  }
+  .gift-box:hover{
+    border-color:var(--gold);
+    box-shadow:0 20px 40px rgba(0,0,0,0.45), 0 0 26px rgba(232,184,75,0.25);
+  }
+  .gift-box .emoji{font-size:2.1rem; display:block; margin-bottom:8px; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.4));}
+  .gift-box .sub{
+    display:block;
+    font-size:0.7rem;
+    font-weight:500;
+    color:#9aa4b8;
+    margin-top:4px;
+    letter-spacing:0.03em;
+  }
+
+  .message-card{ text-align:left; padding-top:6px; }
+  .msg-icon{
+    width:46px;height:46px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--gold2), var(--gold) 55%, #b9862a);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.35rem;
+    margin-bottom:14px;
+    box-shadow:0 10px 20px rgba(232,184,75,0.35);
+    animation:iconPop 0.5s ease;
+  }
+  @keyframes iconPop{
+    from{transform:scale(0.5); opacity:0;}
+    to{transform:scale(1); opacity:1;}
+  }
+  .message-card .msg-label{
+    font-size:0.7rem;
+    font-weight:700;
+    letter-spacing:0.16em;
+    color:var(--cyan);
+    text-shadow:0 0 6px rgba(63,240,230,0.6);
+    margin-bottom:10px;
+    display:block;
+  }
+  .message-card p{
+    line-height:1.8;
+    font-size:0.98rem;
+    color:#fdf2d4;
+    margin-bottom:18px;
+    border-left:2px solid var(--gold);
+    padding-left:14px;
+  }
+
+  .carousel-label{
+    font-size:0.7rem;
+    font-weight:700;
+    letter-spacing:0.16em;
+    color:var(--cyan);
+    text-shadow:0 0 6px rgba(63,240,230,0.6);
+    margin-bottom:12px;
+    display:block;
+    text-align:left;
+  }
+  .carousel-frame{
+    position:relative;
+    width:min(100%, 420px);
+    max-width:100%;
+    max-height:min(70vh, 520px);
+    min-height:220px;
+    border-radius:18px;
+    overflow:hidden;
+    background:#0d0d16;
+    border:1px solid rgba(232,184,75,0.35);
+    box-shadow:0 18px 38px rgba(0,0,0,0.45);
+    margin:0 auto 14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:10px;
+  }
+  .carousel-frame img{
+    display:block;
+    max-width:100%;
+    max-height:100%;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+    opacity:0;
+    animation:imgFade 0.5s ease forwards;
+  }
+  @keyframes imgFade{ to{opacity:1;} }
+  .carousel-frame .nav-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(0,0,0,0.45);
+    border:1px solid rgba(255,255,255,0.25);
+    color:#fff;
+    width:38px;height:38px;
+    border-radius:50%;
+    font-size:1.1rem;
+    padding:0;
+    backdrop-filter:blur(4px);
+    transition:transform 0.2s ease, background 0.2s ease;
+  }
+  .carousel-frame .nav-btn:hover{background:rgba(0,0,0,0.65); transform:translateY(-50%) scale(1.1);}
+  .nav-prev{left:10px;}
+  .nav-next{right:10px;}
+  .carousel-frame .counter-tag{
+    position:absolute;
+    bottom:10px;
+    right:12px;
+    background:rgba(0,0,0,0.5);
+    color:#eee;
+    font-size:0.65rem;
+    padding:3px 9px;
+    border-radius:999px;
+    letter-spacing:0.05em;
+  }
+  .dots{display:flex; justify-content:center; gap:8px; margin-bottom:16px;}
+  .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.25); transition:background 0.2s ease, transform 0.2s ease;}
+  .dot.active{background:var(--gold); box-shadow:0 0 8px rgba(232,184,75,0.7); transform:scale(1.2);}
+
+  .back-btn{
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.25);
+    color:#ccc;
+    border-radius:999px;
+    padding:9px 20px;
+    font-family:'Manrope', sans-serif;
+    font-weight:600;
+    font-size:0.85rem;
+    transition:transform 0.2s ease, background 0.2s ease;
+  }
+  .back-btn:hover{background:rgba(255,255,255,0.08); color:#fff; transform:translateY(-2px);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  @media (max-width:420px){
+    .gift-grid{grid-template-columns:1fr;}
+    .cake3d-wrap{width:220px; height:230px;}
+    .tier-bottom{width:190px; top:130px;}
+    .tier-bottom .tier-top{width:190px; height:40px;}
+    .tier-bottom .tier-front{width:172px; height:56px;}
+    .tier-bottom .tier-band{width:172px;}
+    .tier-mid{width:152px; top:72px;}
+    .tier-mid .tier-top{width:152px; height:33px;}
+    .tier-mid .tier-front{width:136px; height:48px;}
+    .tier-mid .tier-band{width:136px;}
+    .tier-top-tier{width:114px; top:26px;}
+    .tier-top-tier .tier-top{width:114px; height:26px;}
+    .tier-top-tier .tier-front{width:102px; height:40px;}
+    .tier-top-tier .tier-band{width:102px;}
+    .choc-drip{width:120px; top:27px;}
+    .cake-plate{top:190px; width:210px; height:18px;}
+    .cake-shadow{top:204px; width:170px;}
+    .c1{left:78px;}
+    .c2{left:104px;}
+    .c3{left:130px;}
+  }
+</style>
+</head>
+<body>
+<div id="bgParticles"></div>
+<div id="confettiLayer"></div>
+
+  <div class="scene" id="scene">
+
+    <div class="panel" id="step1">
+      <h1>HAPPY BIRTHDAY, JEDRICK!</h1>
+      <p class="subtext">isa pang taon, isa pang shot 🎉</p>
+
+      <div class="cake3d-wrap">
+        <div class="cake-ambient-glow"></div>
+        <span class="sparkle sp1">✨</span>
+        <span class="sparkle sp2">⭐</span>
+        <span class="sparkle sp3">✦</span>
+        <span class="sparkle sp4">✨</span>
+        <span class="sparkle sp5">✦</span>
+
+        <div class="cake3d">
+          <div class="candle c1"></div>
+          <div class="candle c2"></div>
+          <div class="candle c3"></div>
+
+          <div class="tier tier-top-tier">
+            <div class="tier-top"></div>
+            <div class="tier-front"></div>
+            <div class="tier-band"></div>
+            <div class="sprinkles-3d"></div>
+          </div>
+
+          <svg class="choc-drip" viewBox="0 0 140 34" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="chocGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#6b3a1c"/>
+                <stop offset="100%" stop-color="#3a1d0c"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,0 L140,0 L140,6 C132,6 130,20 122,20 C114,20 113,7 105,7 C97,7 96,26 87,26 C78,26 78,9 70,9 C62,9 61,22 53,22 C45,22 44,8 36,8 C28,8 27,24 19,24 C11,24 10,6 0,6 Z" fill="url(#chocGrad)"/>
+          </svg>
+
+          <div class="tier tier-mid">
+            <div class="tier-top"></div>
+            <div class="tier-front"></div>
+            <div class="tier-band"></div>
+            <div class="sprinkles-3d"></div>
+          </div>
+
+          <div class="tier tier-bottom">
+            <div class="tier-top"></div>
+            <div class="tier-front"></div>
+            <div class="tier-band"></div>
+            <div class="sprinkles-3d"></div>
+          </div>
+
+          <div class="cake-plate"></div>
+        </div>
+        <div class="cake-shadow"></div>
+      </div>
+
+      <div class="question">
+        Sigurado ka ba? 😏<br>
+        <b>Excited</b> ka bang makita ang inihanda ko para sa'yo?
+      </div>
+      <div class="btn-row">
+        <button class="btn-yes" id="yesBtn">YES</button>
+        <button class="btn-no" id="noBtn">NO</button>
+      </div>
+      <div class="nudge" id="nudge"></div>
+    </div>
+
+    <div class="panel hidden" id="giftGrid">
+      <h1 style="font-size:clamp(1.2rem,5.5vw,1.6rem);">PILI KA</h1>
+      <p class="subtext">anong bubuksan mo muna?</p>
+      <div class="gift-grid">
+        <button class="gift-box" data-target="message">
+          <span class="emoji">🎁</span>
+          Message Gift
+          <span class="sub">isang tapat na mensahe</span>
+        </button>
+        <button class="gift-box" data-target="carousel">
+          <span class="emoji">🎀</span>
+          Memory Gift
+          <span class="sub">mga kwento sa larawan</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="panel message-card hidden" id="messageScreen">
+      <div class="msg-icon">🎁</div>
+      <span class="msg-label">MESSAGE GIFT</span>
+      <p>Jedrick, I hope your day is full of laughter, good vibes, and all the things that make you smile. You deserve a beautiful year ahead and I'm so happy to celebrate you today. Happy birthday!</p>
+      <button class="back-btn" data-action="back">← Back</button>
+    </div>
+
+    <div class="panel hidden" id="carouselScreen">
+      <span class="carousel-label">MEMORY GIFT</span>
+      <div class="carousel-frame">
+        <img id="carouselImage" src="21129e34-037a-4bb9-ad18-e4a41e311436.jpg" alt="Birthday memory">
+        <button class="nav-btn nav-prev" id="prevBtn" aria-label="Previous">‹</button>
+        <button class="nav-btn nav-next" id="nextBtn" aria-label="Next">›</button>
+        <span class="counter-tag" id="counterTag">1 / 1</span>
+      </div>
+      <div class="dots" id="dots"></div>
+      <button class="back-btn" data-action="back">← Back</button>
+    </div>
+
+  </div>
+
+<script>
+  const imageList = [
+    '21129e34-037a-4bb9-ad18-e4a41e311436.jpg',
+    'abf2a9f0-4cfd-4cb2-9ac7-2f9ef776bdfe.jpg',
+    '687b1686-3a17-4a53-b6e7-c8665a9e461e.jpg',
+    '9c07705a-8919-49b4-9357-092753fe6c1d.jpg',
+    '6ad5b55e-71a9-45f0-93f8-1c68381639ee.jpg'
+  ];
+
+  let currentImageIndex = 0;
+  const step1 = document.getElementById('step1');
+  const giftGrid = document.getElementById('giftGrid');
+  const messageScreen = document.getElementById('messageScreen');
+  const carouselScreen = document.getElementById('carouselScreen');
+  const carouselImage = document.getElementById('carouselImage');
+  const dotsContainer = document.getElementById('dots');
+  const counterTag = document.getElementById('counterTag');
+
+  function showScreen(screenId){
+    [step1, giftGrid, messageScreen, carouselScreen].forEach(el => el.classList.add('hidden'));
+    document.getElementById(screenId).classList.remove('hidden');
+  }
+
+  const nudge = document.getElementById('nudge');
+  const nudgeLines = [
+    "Sigurado ka? Wag kang magdalawang-isip 👀",
+    "Ayan, i-YES mo na 😌",
+    "Okay fine, pero sayang na sayang ka 🥲"
+  ];
+  let noCount = 0;
+  document.getElementById('noBtn').addEventListener('click', () => {
+    nudge.textContent = nudgeLines[Math.min(noCount, nudgeLines.length - 1)];
+    noCount++;
+  });
+  document.getElementById('yesBtn').addEventListener('click', () => {
+    burstConfetti();
+    showScreen('giftGrid');
+  });
+
+  document.querySelectorAll('.gift-box').forEach(button => {
+    button.addEventListener('click', () => {
+      const target = button.getAttribute('data-target');
+      if(target === 'message'){
+        showScreen('messageScreen');
+      } else {
+        showScreen('carouselScreen');
+        updateCarousel();
+      }
+    });
+  });
+
+  document.querySelectorAll('.back-btn').forEach(button => {
+    button.addEventListener('click', () => showScreen('giftGrid'));
+  });
+
+  function buildDots(){
+    dotsContainer.innerHTML = '';
+    imageList.forEach((_, index) => {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (index === currentImageIndex ? ' active' : '');
+      dotsContainer.appendChild(dot);
+    });
+  }
+
+  function updateCarousel(){
+    carouselImage.style.animation = 'none';
+    void carouselImage.offsetWidth;
+    carouselImage.style.animation = 'imgFade 0.5s ease forwards';
+    carouselImage.src = imageList[currentImageIndex];
+    carouselImage.alt = `Birthday memory ${currentImageIndex + 1}`;
+    carouselImage.onerror = () => {
+      carouselImage.removeAttribute('src');
+      carouselImage.alt = 'Add ' + imageList[currentImageIndex] + ' next to this HTML file';
+    };
+    counterTag.textContent = (currentImageIndex + 1) + ' / ' + imageList.length;
+    buildDots();
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    currentImageIndex = (currentImageIndex - 1 + imageList.length) % imageList.length;
+    updateCarousel();
+  });
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    currentImageIndex = (currentImageIndex + 1) % imageList.length;
+    updateCarousel();
+  });
+
+  buildDots();
+
+  // ambient floating particles
+  const bgParticles = document.getElementById('bgParticles');
+  const shapes = ['✨','⭐','🎈','🎉','💫'];
+  function spawnParticle(){
+    const el = document.createElement('div');
+    el.className = 'particle';
+    el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = (12 + Math.random() * 14) + 'px';
+    el.style.setProperty('--drift', (Math.random() * 80 - 40) + 'px');
+    const duration = 9 + Math.random() * 7;
+    el.style.animationDuration = duration + 's';
+    bgParticles.appendChild(el);
+    setTimeout(() => el.remove(), duration * 1000 + 200);
+  }
+  setInterval(spawnParticle, 900);
+  for(let n = 0; n < 8; n++) setTimeout(spawnParticle, n * 350);
+
+  // confetti burst on YES
+  const confettiLayer = document.getElementById('confettiLayer');
+  const confettiColors = ['#e8b84b','#ff2fb0','#3ff0e6','#ffe3a1','#ffffff'];
+  function burstConfetti(){
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduced) return;
+    const count = 60;
+    for(let i = 0; i < count; i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      const size = 6 + Math.random() * 6;
+      const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+      const isCircle = Math.random() > 0.5;
+      piece.style.width = size + 'px';
+      piece.style.height = (isCircle ? size : size * 1.6) + 'px';
+      piece.style.background = color;
+      piece.style.borderRadius = isCircle ? '50%' : '2px';
+      piece.style.left = (10 + Math.random() * 80) + 'vw';
+      piece.style.setProperty('--cx', (Math.random() * 160 - 80) + 'px');
+      piece.style.setProperty('--cr', (Math.random() * 720 - 360) + 'deg');
+      const duration = 2.4 + Math.random() * 1.6;
+      piece.style.animationDuration = duration + 's';
+      piece.style.animationDelay = (Math.random() * 0.3) + 's';
+      confettiLayer.appendChild(piece);
+      setTimeout(() => piece.remove(), (duration + 0.5) * 1000);
+    }
+  }
+
+  // mouse parallax tilt on the active panel
+  const scene = document.getElementById('scene');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reducedMotion && window.matchMedia('(hover: hover)').matches){
+    scene.addEventListener('mousemove', (e) => {
+      const panel = scene.querySelector('.panel:not(.hidden)');
+      if(!panel) return;
+      const rect = panel.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      const rotateY = (x - 0.5) * 10;
+      const rotateX = (0.5 - y) * 10;
+      panel.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+    scene.addEventListener('mouseleave', () => {
+      const panel = scene.querySelector('.panel:not(.hidden)');
+      if(panel) panel.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    });
+
+    document.querySelectorAll('.gift-box').forEach(box => {
+      box.addEventListener('mousemove', (e) => {
+        const rect = box.getBoundingClientRect();
+        const mx = ((e.clientX - rect.left) / rect.width) * 100;
+        const my = ((e.clientY - rect.top) / rect.height) * 100;
+        box.style.setProperty('--mx', mx + '%');
+        box.style.setProperty('--my', my + '%');
+      });
+    });
+  }
+</script>
+</body>
+</html>
