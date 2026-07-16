@@ -1,0 +1,7 @@
+# Ignore local environment and generated files
+.env
+wishes.json
+/vendor/
+node_modules/
+*.log
+.DS_Store
